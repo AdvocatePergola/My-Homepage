@@ -36,6 +36,10 @@ layout: default
         
         {% if page.collection == 'teaching' %}
           <p> {{ page.type }}, <i>{{ page.venue }}</i>, {{ page.date | default: "1900-01-01" | date: "%Y" }} </p>
+        {% elsif page.collection == 'publications' and page.venue contains "Accepted at" %}
+          <p>Accepted at <i>{{ page.venue | remove: "Accepted at" }}</i>, {{ page.date | date: "%Y" }}</p>
+        {% elsif page.collection == 'publications' and page.venue contains "acceptance not confirmed" %}
+          <p>Workshop status: <i>{{ page.venue }}</i></p>
         {% elsif page.venue and page.date %}
           <p>Published in <i>{{ page.venue }}</i>, {{ page.date | default: "1900-01-01" | date: "%Y" }} </p>
         {% elsif page.date %}
@@ -52,20 +56,29 @@ layout: default
         {%- if page.citation -%}
           <p style="font-size: smaller">
             Recommended citation: {{ page.citation }}
-            {%- if has_any_link -%}<br/>{%- endif -%}
+            {%- if has_any_link -%}
+            <br/>{%- endif -%}
             {%- assign first = true -%}
-            {%- if page.paperurl -%}{% unless first %} | {% endunless %}<a href="{{ page.paperurl }}">Download Paper</a>{% assign first = false %}{%- endif -%}
-            {%- if page.slidesurl -%}{% unless first %} | {% endunless %}<a href="{{ page.slidesurl }}">Download Slides</a>{% assign first = false %}{%- endif -%}
-            {%- if page.bibtexurl -%}{% unless first %} | {% endunless %}<a href="{{ page.bibtexurl }}">Download Bibtex</a>{% assign first = false %}{%- endif -%}
-            {%- if page.codeurl -%}{% unless first %} | {% endunless %}<a href="{{ page.codeurl }}" target="_blank" rel="noopener">Code (GitHub)</a>{% assign first = false %}{%- endif -%}
+            {%- if page.paperurl -%}{% unless first %} | {% endunless %}
+            <a href="{{ page.paperurl }}">Download Paper</a>{% assign first = false %}{%- endif -%}
+            {%- if page.slidesurl -%}{% unless first %} | {% endunless %}
+            <a href="{{ page.slidesurl }}">Download Slides</a>{% assign first = false %}{%- endif -%}
+            {%- if page.bibtexurl -%}{% unless first %} | {% endunless %}
+            <a href="{{ page.bibtexurl }}">Download Bibtex</a>{% assign first = false %}{%- endif -%}
+            {%- if page.codeurl -%}{% unless first %} | {% endunless %}
+            <a href="{{ page.codeurl }}" target="_blank" rel="noopener">Code (GitHub)</a>{% assign first = false %}{%- endif -%}
           </p>
         {%- elsif has_any_link -%}
           <p style="font-size: smaller">
             {%- assign first = true -%}
-            {%- if page.paperurl -%}{% unless first %} | {% endunless %}<a href="{{ page.paperurl }}">Download Paper</a>{% assign first = false %}{%- endif -%}
-            {%- if page.slidesurl -%}{% unless first %} | {% endunless %}<a href="{{ page.slidesurl }}">Download Slides</a>{% assign first = false %}{%- endif -%}
-            {%- if page.bibtexurl -%}{% unless first %} | {% endunless %}<a href="{{ page.bibtexurl }}">Download Bibtex</a>{% assign first = false %}{%- endif -%}
-            {%- if page.codeurl -%}{% unless first %} | {% endunless %}<a href="{{ page.codeurl }}" target="_blank" rel="noopener">Code (GitHub)</a>{% assign first = false %}{%- endif -%}
+            {%- if page.paperurl -%}{% unless first %} | {% endunless %}
+            <a href="{{ page.paperurl }}">Download Paper</a>{% assign first = false %}{%- endif -%}
+            {%- if page.slidesurl -%}{% unless first %} | {% endunless %}
+            <a href="{{ page.slidesurl }}">Download Slides</a>{% assign first = false %}{%- endif -%}
+            {%- if page.bibtexurl -%}{% unless first %} | {% endunless %}
+            <a href="{{ page.bibtexurl }}">Download Bibtex</a>{% assign first = false %}{%- endif -%}
+            {%- if page.codeurl -%}{% unless first %} | {% endunless %}
+            <a href="{{ page.codeurl }}" target="_blank" rel="noopener">Code (GitHub)</a>{% assign first = false %}{%- endif -%}
           </p>
         {%- endif -%}
 
@@ -89,7 +102,9 @@ layout: default
     {% endif %}
   </article>
 
-  {% comment %}<!-- only show related on a post page when not disabled -->{% endcomment %}
+  {% comment %}
+  <!-- only show related on a post page when not disabled -->
+  {% endcomment %}
   {% if page.id and page.related and site.related_posts.size > 0 %}
     <div class="page__related">
       {% if site.data.ui-text[site.locale].related_label %}
